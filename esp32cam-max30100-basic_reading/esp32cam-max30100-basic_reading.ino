@@ -1,5 +1,5 @@
 /*
-  MAX30105 Breakout: Output all the raw Red/IR/Green readings
+  MAX30102 Breakout: Output all the raw Red/IR/Green readings
   By: Nathan Seidle @ SparkFun Electronics
   Date: October 2nd, 2016
   https://github.com/sparkfun/MAX30105_Breakout
@@ -9,8 +9,9 @@
   Hardware Connections (Breakoutboard to Arduino):
   -5V = 5V (3.3V is allowed)
   -GND = GND
-  -SDA = A4 (or SDA)
-  -SCL = A5 (or SCL)
+  -SDA = A4 (or SDA) + 4.7Kohms a Vcc (pull-up)
+
+  -SCL = A5 (or SCL) + 4.7Kohms a Vcc (pull-up)
   -INT = Not connected
 
   The MAX30105 Breakout can handle 5V or 3.3V I2C logic. We recommend powering the board with 5V
@@ -29,18 +30,18 @@ MAX30105 particleSensor;
 
 void setup()
 {
-  debug.begin(9600);
-  debug.println("MAX30105 Basic Readings Example");
+  debug.begin(115200);
+  debug.println("MAX30102 Basic Readings Example");
 
-  Wire.begin(15,14);
+  
+  Wire.begin(14,15);
   // Initialize sensor
   if (particleSensor.begin(Wire) == false)
   {
-    debug.println("MAX30105 was not found. Please check wiring/power. ");
-    while (1);
+    debug.println("MAX30102 was not found. Please check wiring/power.");
+    while(1);
   }
-
-  particleSensor.setup(); //Configure sensor. Use 6.4mA for LED drive
+  particleSensor.setup(); // Configure sensor. Use 6.4mA for LED drive
 }
 
 void loop()
@@ -52,6 +53,6 @@ void loop()
   debug.print("] G[");
   debug.print(particleSensor.getGreen());
   debug.print("]");
-
   debug.println();
+  delay(2000);
 }

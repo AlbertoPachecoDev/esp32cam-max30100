@@ -7,12 +7,11 @@
   Outputs all Red/IR/Green values.
 
   Hardware Connections (Breakoutboard to Arduino):
-  -5V = 5V (3.3V is allowed)
+  -VCC = -3.3V 
   -GND = GND
   -SDA = A4 (or SDA) + 4.7Kohms a Vcc (pull-up)
-
   -SCL = A5 (or SCL) + 4.7Kohms a Vcc (pull-up)
-  -INT = Not connected
+  **-INT = Not connected** TO-DO
 
   The MAX30105 Breakout can handle 5V or 3.3V I2C logic. We recommend powering the board with 5V
   but it will also run at 3.3V.
@@ -25,34 +24,28 @@
 
 MAX30105 particleSensor;
 
-#define debug Serial //Uncomment this line if you're using an Uno or ESP
-//#define debug SerialUSB //Uncomment this line if you're using a SAMD21
-
 void setup()
 {
-  debug.begin(115200);
-  debug.println("MAX30102 Basic Readings Example");
-
+  Serial.begin(115200);
+  Serial.println("MAX30102 Basic Readings Example");
   
-  Wire.begin(14,15);
+  Wire.begin(14,15); // BUG
   // Initialize sensor
-  if (particleSensor.begin(Wire) == false)
-  {
-    debug.println("MAX30102 was not found. Please check wiring/power.");
-    while(1);
+  if (particleSensor.begin(Wire) == false) {
+    Serial.println("MAX30102 was not found. Please check wiring/power.");
+    return; // while(1);
   }
   particleSensor.setup(); // Configure sensor. Use 6.4mA for LED drive
 }
 
-void loop()
-{
-  debug.print(" R[");
-  debug.print(particleSensor.getRed());
-  debug.print("] IR[");
-  debug.print(particleSensor.getIR());
-  debug.print("] G[");
-  debug.print(particleSensor.getGreen());
-  debug.print("]");
-  debug.println();
+void loop() {
+  Serial.print(" R[");
+  Serial.print(particleSensor.getRed());
+  Serial.print("] IR[");
+  Serial.print(particleSensor.getIR());
+  Serial.print("] G[");
+  Serial.print(particleSensor.getGreen());
+  Serial.print("]");
+  Serial.println();
   delay(2000);
 }

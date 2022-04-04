@@ -19,7 +19,7 @@
   This code is released under the [MIT License](http://opensource.org/licenses/MIT).
 */
 
-#include <Wire.h>
+//#include <Wire.h>
 #include "MAX30105.h"
 
 MAX30105 particleSensor;
@@ -43,8 +43,8 @@ void loop() {
   Serial.print(particleSensor.getRed());
   Serial.print("] IR[");
   Serial.print(particleSensor.getIR());
-  Serial.print("] G[");
-  Serial.print(particleSensor.getGreen());
+  // NO EXISTE EN EL SENSOR MAX301102 Serial.print("] G[");
+  // NO EXISTE EN EL SENSOR MAX301102 Serial.print(particleSensor.getGreen());
   Serial.print("]");
   Serial.println();
   delay(2000);
